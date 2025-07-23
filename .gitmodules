@@ -1,0 +1,12 @@
+[submodule "hardware-acceleration/external/slang-rhi"]
+	path = hardware-acceleration/external/slang-rhi
+	url = https://github.com/shader-slang/slang-rhi.git
+[submodule "hardware-acceleration/external/lz4"]
+	path = hardware-acceleration/external/lz4
+	url = https://github.com/lz4/lz4.git
+[submodule "hardware-acceleration/external/miniz"]
+	path = hardware-acceleration/external/miniz
+	url = https://github.com/richgel999/miniz.git
+[submodule "hardware-acceleration/external/unordered_dense"]
+	path = hardware-acceleration/external/unordered_dense
+	url = https://github.com/martinus/unordered_dense.git
