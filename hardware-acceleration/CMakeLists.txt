@@ -262,6 +262,10 @@ else()
         -Wextra
         -Wno-unused-parameter
         -Wno-missing-field-initializers
+        -Wno-reorder
+        -Wno-unused-function
+        -Wno-switch
+        -Wno-parentheses
     )
 endif()
 

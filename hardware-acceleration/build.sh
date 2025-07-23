@@ -47,7 +47,7 @@ cmake -B "$BUILD_DIR" -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release
 
 # Build the project
 echo "Building project..."
-cmake --build "$BUILD_DIR" --config Release
+cmake --build "$BUILD_DIR" --config Release -j$(nproc)
 
 echo "Build completed successfully!"
 echo "Executables can be found in: $BUILD_DIR/"
