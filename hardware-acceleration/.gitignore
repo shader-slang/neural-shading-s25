@@ -1,0 +1,43 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+
+# Generated files
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.pdb
+*.exp
+*.ilk
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# External dependencies
+external/slang/
+downloads/
+
+# Note: external/slang-rhi/, external/lz4/, external/miniz/, and external/unordered_dense/ are submodules and should be tracked
+
+# IDE files
+.vs/
+.vscode/
+*.sln
+*.vcxproj*
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+log-*.txt
