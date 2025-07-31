@@ -199,6 +199,11 @@ if(NOT WIN32)
     list(FILTER EXAMPLE_BASE_SOURCES EXCLUDE REGEX ".*/windows/.*")
 endif()
 
+# Only include Unix platform files on Unix systems
+if(WIN32)
+    list(FILTER EXAMPLE_BASE_SOURCES EXCLUDE REGEX ".*/unix/.*")
+endif()
+
 # Create example-base static library
 add_library(example-base STATIC ${EXAMPLE_BASE_SOURCES})
 
