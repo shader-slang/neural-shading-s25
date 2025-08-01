@@ -5,7 +5,7 @@ import slangpy as spy
 import numpy as np
 
 # Create the app and load the slang module.
-app = App(width=512 * 3 + 10 * 2, height=512, title="Mipmap Example")
+app = App(width=512 * 3 + 10 * 2, height=512, title="Network Example")
 module = spy.Module.load_from_file(app.device, "nsc_nw_01_basicnetwork.slang")
 
 # Load some materials.

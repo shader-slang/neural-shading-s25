@@ -79,8 +79,9 @@ float3 loss(int2 pixel, no_diff float3 reference, no_diff MaterialParameters mat
     return error * error; // Squared error
 }
 
+// LCG based random number generator that can give us
+// uniformly distributed random numbers on a hemisphere.
 #define PI 3.14159265358979323846f
-
 struct LCG
 {
     uint state;
@@ -121,30 +122,29 @@ void calculate_grads(uint seed, int2 pixel, MaterialParameters material, Materia
 {
     LCG lcg = LCG(seed);
 
-    const int N = 1;
+    // Sample light and view direction from a hemisphere.
+    float3 light_dir = lcg.next_dir_on_hemisphere();
+    float3 view_dir = lcg.next_dir_on_hemisphere();
 
-    for(int i = 0; i < N; i++)
+    // Index of high res pixel we'll sample.
+    int2 hi_res_pixel = pixel * 4;
+
+    // Render and average 16 samples from the high resolution material.
+    float3 sum = 0;
+    for(int x0 = 0; x0 < 4; x0++)
     {
-        float3 light_dir = lcg.next_dir_on_hemisphere();
-        float3 view_dir = lcg.next_dir_on_hemisphere();
-
-        int2 hi_res_pixel = pixel * 4;
-
-        float3 sum = 0;
-        for(int x0 = 0; x0 < 4; x0++)
+        for(int y0 = 0; y0 < 4; y0++)
         {
-            for(int y0 = 0; y0 < 4; y0++)
-            {
-                int2 hi_res_pixel_offset = hi_res_pixel + int2(x0, y0);
-                sum += render(hi_res_pixel_offset, ref_material, light_dir, view_dir);
-            }
+            int2 hi_res_pixel_offset = hi_res_pixel + int2(x0, y0);
+            sum += render(hi_res_pixel_offset, ref_material, light_dir, view_dir);
         }
-        sum /= 16.0f;
-
-
-        bwd_diff(loss)(pixel, sum, material, light_dir, view_dir, 1);
     }
-    material.normal_grad.setv(pixel,material.normal_grad.getv(pixel)/float(N));
+    sum /= 16.0f;
+
+    // Back-propagate through the loss function.
+    // results in get_albedo_bwd, get_normal_bwd, get_roughness_bwd being
+    // called with the gradients, which are then stored in buffers.
+    bwd_diff(loss)(pixel, sum, material, light_dir, view_dir, 1);
 }
 
 void init_normal(inout float3 val)
@@ -158,11 +158,6 @@ void init3(inout float3 val, float3 v)
 void init1(inout float val, float v)
 {
     val = v;
-}
-
-void scale(inout float3 val, float k)
-{
-    val = val * k;
 }
 
 void optimize1(inout float primal, inout float grad, inout float m_prev, inout float v_prev, float learning_rate, int iteration)
