@@ -1,6 +1,6 @@
 # Neural Shading Hardware Acceleration
 
-This folder contains the source code used in the "Hardware Acceleration" section of the "Introduction to Neural Shading" cource at
+This folder contains the source code used in the "Hardware Acceleration" section of the "Introduction to Neural Shading" course at
 SIGGRPAH 2025. This project includes two implementations of neural network (MLP) training using Slang and slang-rhi.
 
 `mlp-trainining/` contains the shader and host-side C++ code to train an MLP without using any special intrinsics.
@@ -15,6 +15,7 @@ SIGGRPAH 2025. This project includes two implementations of neural network (MLP)
 ## External Dependencies
 
 The build system uses the following external libraries:
+
 - [Slang](https://github.com/shader-slang/slang) - Shader language and compiler (automatically downloaded)
 - [slang-rhi](https://github.com/shader-slang/slang-rhi) - Render hardware interface (Git submodule)
 - [LZ4](https://github.com/lz4/lz4) - Fast compression library (Git submodule)
@@ -34,6 +35,7 @@ git submodule update --init --recursive
 ### Quick Start
 
 1. **Setup dependencies** (first time only):
+
    ```cmd
    setup.bat
    ```
@@ -48,6 +50,7 @@ git submodule update --init --recursive
 If you prefer to set up manually:
 
 1. **Initialize submodules**:
+
    ```bash
    git submodule add https://github.com/shader-slang/slang-rhi.git external/slang-rhi
    git submodule update --init --recursive
@@ -67,10 +70,8 @@ If you prefer to set up manually:
 git submodule update --init --recursive
 
 # Build
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
 ```
 
 ## Executables
@@ -101,6 +102,7 @@ Both executables implement a simple multi-layer perceptron trained to approximat
 ## Running
 
 After building, the executables will be located in:
+
 - Windows: `build/Release/`
 - Linux/macOS: `build/`
 
@@ -109,17 +111,21 @@ The shader (.slang) files are automatically copied to the build directory for ru
 ## Troubleshooting
 
 ### Download Issues
+
 If external dependencies fail to download:
+
 1. Check your internet connection
 2. Verify the GitHub repositories are accessible
 3. Manually adjust version numbers in CMakeLists.txt if needed
 
 ### Build Issues
+
 - Ensure you have all required build tools installed
 - Check that your compiler supports C++17
 - On Windows, make sure you have the Windows SDK installed
 
 ### Runtime Issues
+
 - Ensure shader files (.slang) are in the same directory as the executable
 - Check that your graphics drivers support Vulkan
-- To run mlp-training-coopvec, make sure you have an NVIDIA GPU with latest driver.
+- To run mlp-training-coopvec, make sure you have an NVIDIA GPU with the latest driver.
