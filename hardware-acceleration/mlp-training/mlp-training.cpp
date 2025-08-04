@@ -94,8 +94,22 @@ struct ExampleProgram : public TestBase
         parseOption(argc, argv);
 
         rhi::DeviceDesc deviceDesc;
+        // Auto-detect platform and choose appropriate backend
+#ifdef __APPLE__
+        // Use Metal on macOS
+        deviceDesc.slang.targetProfile = "metal_2_4";
+        deviceDesc.deviceType = rhi::DeviceType::Metal;
+        // Add preprocessor macro for Apple devices
+        static const slang::PreprocessorMacroDesc appleMacros[] = {
+            {"__SLANG_APPLE__", "1"},
+        };
+        deviceDesc.slang.preprocessorMacros = appleMacros;
+        deviceDesc.slang.preprocessorMacroCount = 1;
+#else
+        // Use Vulkan on other platforms
         deviceDesc.slang.targetProfile = "spirv_1_6";
         deviceDesc.deviceType = rhi::DeviceType::Vulkan;
+#endif
 
         gDevice = rhi::getRHI()->createDevice(deviceDesc);
         if (!gDevice)

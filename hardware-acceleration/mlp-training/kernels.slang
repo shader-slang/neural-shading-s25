@@ -7,6 +7,9 @@ import adam;
 
 [numthreads(256, 1, 1)]
 [require(spvGroupNonUniformBallot, spvGroupNonUniformArithmetic)]
+#if __SLANG_APPLE__
+[require(metal)]
+#endif
 void learnGradient(
     uint32_t tid : SV_DispatchThreadID,
     uniform MyNetwork* network, 
