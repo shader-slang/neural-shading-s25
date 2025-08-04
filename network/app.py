@@ -11,7 +11,7 @@ class App:
         title: str = "Forward Rasterizer Example",
         width: int = 1024,
         height: int = 1024,
-        device_type: spy.DeviceType = spy.DeviceType.d3d12,
+        device_type: spy.DeviceType = spy.DeviceType.automatic,
     ):
         super().__init__()
 
