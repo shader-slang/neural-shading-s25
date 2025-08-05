@@ -175,7 +175,15 @@ cd hardware-acceleration/build/Release  # or build/ on Linux, this is not suppor
 - Review the hardware-acceleration README for detailed build instructions
 - Ensure all dependencies are properly installed
 
-## RTXNC
+## Useful Resources
+
+### RTXNS
+
+The RTX neural shading SDK is a useful resource for developers interested in bringing machine learning to graphics applications.
+It provides examples for training neural networks and using the models to perform inferences on normal graphics rendering.
+https://github.com/NVIDIA-RTX/RTXNS
+
+### RTXNC
 
 Related to the neural shaing samples is the RTX Neural Texture Compression (NTC) SDK which allows compressing all
 PBR textures for a single material together: https://github.com/NVIDIA-RTX/RTXNTC
