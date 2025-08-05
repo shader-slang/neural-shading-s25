@@ -175,6 +175,11 @@ cd hardware-acceleration/build/Release  # or build/ on Linux, this is not suppor
 - Review the hardware-acceleration README for detailed build instructions
 - Ensure all dependencies are properly installed
 
+## RTXNC
+
+Related to the neural shaing samples is the RTX Neural Texture Compression (NTC) SDK which allows compressing all
+PBR textures for a single material together: https://github.com/NVIDIA-RTX/RTXNTC
+
 ## Contributing
 
 This repository contains course materials for SIGGRAPH 2025. For questions or issues related to the course content, please refer to the course documentation or contact the instructors.
