@@ -22,7 +22,7 @@ struct MaterialParameters
     [BackwardDerivativeOf(get_albedo)]
     void get_albedo_bwd(int2 pixel, float3 grad)
     {
-        albedo_grad.setv(pixel, albedo_grad.getv(pixel)+grad);
+        albedo_grad.setv(pixel, grad);
     }
 
     [Differentiable]
@@ -34,7 +34,7 @@ struct MaterialParameters
     [BackwardDerivativeOf(get_normal)]
     void get_normal_bwd(int2 pixel, float3 grad)
     {
-        normal_grad.setv(pixel, normal_grad.getv(pixel)+grad);
+        normal_grad.setv(pixel, grad);
     }
 
     [Differentiable]
@@ -45,7 +45,7 @@ struct MaterialParameters
     [BackwardDerivativeOf(get_roughness)]
     void get_roughness_bwd(int2 pixel, float grad)
     {
-        roughness_grad.setv(pixel, roughness_grad.getv(pixel)+grad);
+        roughness_grad.setv(pixel, grad);
     }
 };
 
