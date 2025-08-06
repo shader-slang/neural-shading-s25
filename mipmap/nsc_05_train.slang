@@ -160,66 +160,45 @@ void init1(inout float val, float v)
     val = v;
 }
 
-void optimize1(inout float primal, inout float grad, inout float m_prev, inout float v_prev, float learning_rate, int iteration)
+void adam_step(inout float primal, float grad, inout float mean, inout float variance, float learning_rate, int iteration)
 {
-    // Standard Adam default values.
+    // Default Adam values.
     const float ADAM_BETA_1 = 0.9;
     const float ADAM_BETA_2 = 0.999;
     const float ADAM_EPSILON = 1e-8;
 
-    // Adam optimization.
-    float gradient2 = grad * grad;
+    // Running average of gradient and square gradient (== variance)
+    mean = lerp(grad, mean, ADAM_BETA_1);
+    variance = lerp(grad * grad, variance, ADAM_BETA_2);
 
-    float m = ADAM_BETA_1 * m_prev + (1.0 - ADAM_BETA_1) * grad;
-    float v = ADAM_BETA_2 * v_prev + (1.0 - ADAM_BETA_2) * gradient2;
+    // The running average is initialized with zeros, and underestimates 
+    // the true values at the beginning. Adam divides by a compensation factor
+    float mHat = mean / (1.0f - pow(ADAM_BETA_1, iteration));
+    float vHat = variance / (1.0f - pow(ADAM_BETA_2, iteration));
+    // Compute the adam step by scaling the mean gradient by the learning rate and the variance estimate
+    float step = learning_rate * mHat / (sqrt(vHat) + ADAM_EPSILON);
 
-    m_prev = m;
-    v_prev = v;
+    // Take an adam
+    primal -= step;
+}
 
-    float mHat = m / (1.0f - pow(ADAM_BETA_1, iteration));
-    float vHat = v / (1.0f - pow(ADAM_BETA_2, iteration));
-
-    float update = learning_rate * (mHat / (sqrt(vHat) + ADAM_EPSILON));
-
-    // Subtract the optimized result from the trained normal and reset the gradient.
-    primal -= update;
+void optimize1(inout float primal, inout float grad, inout float mean, inout float variance, float learning_rate, int iteration)
+{
+    adam_step(primal, grad, mean, variance, learning_rate, iteration);
 
     // Make sure we stay in [0, 1]
     primal = saturate(primal);
-
-    grad = 0;
 }
 
-void optimize3(inout float3 primal, inout float3 grad, inout float3 m_prev, inout float3 v_prev, float learning_rate, int iteration, bool renormalize)
+void optimize3(inout float3 primal, float3 grad, inout float3 mean, inout float3 variance, float learning_rate, int iteration, bool renormalize)
 {
-    // Standard Adam default values.
-    const float ADAM_BETA_1 = 0.9;
-    const float ADAM_BETA_2 = 0.999;
-    const float ADAM_EPSILON = 1e-8;
+    for (int i = 0; i < 3; ++i)
+        adam_step(primal[i], grad[i], mean[i], variance[i], learning_rate, iteration);
 
-    // Adam optimization.
-    float3 gradient2 = grad * grad;
-
-    float3 m = ADAM_BETA_1 * m_prev + (1.0 - ADAM_BETA_1) * grad;
-    float3 v = ADAM_BETA_2 * v_prev + (1.0 - ADAM_BETA_2) * gradient2;
-
-    m_prev = m;
-    v_prev = v;
-
-    float3 mHat = m / (1.0f - pow(ADAM_BETA_1, iteration));
-    float3 vHat = v / (1.0f - pow(ADAM_BETA_2, iteration));
-
-    float3 update = learning_rate * (mHat / (sqrt(vHat) + ADAM_EPSILON));
-
-    // Subtract the optimized result from the trained normal and reset the gradient.
-    primal -= update;
-    if(renormalize)
-        primal = normalize(primal); // Ensure the normal is still normalized.
+    if (renormalize)
+        primal = normalize(primal); // If it's a normal, make sure it's still normalized.
     else
-        primal = saturate(primal); // Make sure we stay in [0, 1]
-    //primal = primal; // Ensure the normal is still normalized.
-
-    grad = float3(0.0f);
+        primal = saturate(primal); // ...otherwise, make sure we stay in [0, 1]
 }
 
 float downsample1(int2 pixel, Tensor<float, 2> source)
