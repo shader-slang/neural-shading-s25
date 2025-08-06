@@ -53,7 +53,7 @@ struct MaterialParameters
 [Differentiable]
 float3 render(int2 pixel, no_diff MaterialParameters material, no_diff float3 light_dir, no_diff float3 view_dir)
 {
-    float light_intensity = 3;
+    float light_intensity = 1.5;
 
     // Sample very shiny BRDF (it rained today!)
     float3 brdf_sample = sample_brdf(

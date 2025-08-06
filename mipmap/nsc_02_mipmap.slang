@@ -26,7 +26,7 @@ struct MaterialParameters
 // Render full res BRDF from given inputs.
 float3 render(int2 pixel, MaterialParameters material, float3 light_dir, float3 view_dir)
 {
-    float light_intensity = 3;
+    float light_intensity = 1.5;
 
     // Sample very shiny BRDF (it rained today!)
     float3 brdf_sample = sample_brdf(
