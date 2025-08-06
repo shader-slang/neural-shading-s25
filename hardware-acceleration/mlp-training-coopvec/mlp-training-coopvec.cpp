@@ -81,19 +81,24 @@ struct ExampleProgram : public TestBase
         // Auto-detect platform and choose appropriate backend
 #ifdef __APPLE__
         // Use Metal on macOS
+        // Note however that the `coopVecOuterProductAccumulate` intrinsic is
+        // not supported on metal, so this example will not run on macOS.
         deviceDesc.slang.targetProfile = "metal_2_4";
         deviceDesc.deviceType = rhi::DeviceType::Metal;
         // Add preprocessor macro for Apple devices
-        static const slang::PreprocessorMacroDesc appleMacros[] = {
+        static const slang::PreprocessorMacroDesc defines[] = {
             {"__SLANG_APPLE__", "1"},
         };
-        deviceDesc.slang.preprocessorMacros = appleMacros;
-        deviceDesc.slang.preprocessorMacroCount = 1;
 #else
         // Use Vulkan on other platforms
         deviceDesc.slang.targetProfile = "spirv_1_6";
         deviceDesc.deviceType = rhi::DeviceType::Vulkan;
+        static const slang::PreprocessorMacroDesc defines[] = {
+            {"__SLANG_APPLE__", "0"},
+        };
 #endif
+        deviceDesc.slang.preprocessorMacros = defines;
+        deviceDesc.slang.preprocessorMacroCount = 1;
 
         gDevice = rhi::getRHI()->createDevice(deviceDesc);
         if (!gDevice)

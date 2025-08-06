@@ -123,3 +123,4 @@ If external dependencies fail to download:
 - Ensure shader files (.slang) are in the same directory as the executable
 - Check that your graphics drivers support Vulkan
 - To run mlp-training-coopvec, make sure you have an NVIDIA GPU with latest driver.
+- Additionally, the mlp-training-coopvec is not supported on MacOS.

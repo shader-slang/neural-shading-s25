@@ -100,16 +100,19 @@ struct ExampleProgram : public TestBase
         deviceDesc.slang.targetProfile = "metal_2_4";
         deviceDesc.deviceType = rhi::DeviceType::Metal;
         // Add preprocessor macro for Apple devices
-        static const slang::PreprocessorMacroDesc appleMacros[] = {
+        static const slang::PreprocessorMacroDesc defines[] = {
             {"__SLANG_APPLE__", "1"},
         };
-        deviceDesc.slang.preprocessorMacros = appleMacros;
-        deviceDesc.slang.preprocessorMacroCount = 1;
 #else
         // Use Vulkan on other platforms
         deviceDesc.slang.targetProfile = "spirv_1_6";
         deviceDesc.deviceType = rhi::DeviceType::Vulkan;
+        static const slang::PreprocessorMacroDesc defines[] = {
+            {"__SLANG_APPLE__", "0"},
+        };
 #endif
+        deviceDesc.slang.preprocessorMacros = defines;
+        deviceDesc.slang.preprocessorMacroCount = 1;
 
         gDevice = rhi::getRHI()->createDevice(deviceDesc);
         if (!gDevice)
