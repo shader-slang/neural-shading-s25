@@ -186,7 +186,7 @@ while app.process_events():
         optimize_counter += 1
 
         # Optimize the trained maps using the gradients.
-        module.optimize3(
+        module.optimizer_step3(
             lr_trained_albedo_map,
             lr_albedo_grad,
             m_albedo,
@@ -195,7 +195,7 @@ while app.process_events():
             optimize_counter,
             False,
         )
-        module.optimize3(
+        module.optimizer_step3(
             lr_trained_normal_map,
             lr_normal_grad,
             m_normal,
@@ -204,7 +204,7 @@ while app.process_events():
             optimize_counter,
             True,
         )
-        module.optimize1(
+        module.optimizer_step1(
             lr_trained_roughness_map,
             lr_roughness_grad,
             m_roughness,

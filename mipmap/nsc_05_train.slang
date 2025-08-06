@@ -178,11 +178,11 @@ void adam_step(inout float primal, float grad, inout float mean, inout float var
     // Compute the adam step by scaling the mean gradient by the learning rate and the variance estimate
     float step = learning_rate * mHat / (sqrt(vHat) + ADAM_EPSILON);
 
-    // Take an adam
+    // Take an adam step
     primal -= step;
 }
 
-void optimize1(inout float primal, inout float grad, inout float mean, inout float variance, float learning_rate, int iteration)
+void optimizer_step1(inout float primal, inout float grad, inout float mean, inout float variance, float learning_rate, int iteration)
 {
     adam_step(primal, grad, mean, variance, learning_rate, iteration);
 
@@ -190,7 +190,7 @@ void optimize1(inout float primal, inout float grad, inout float mean, inout flo
     primal = saturate(primal);
 }
 
-void optimize3(inout float3 primal, float3 grad, inout float3 mean, inout float3 variance, float learning_rate, int iteration, bool renormalize)
+void optimizer_step3(inout float3 primal, float3 grad, inout float3 mean, inout float3 variance, float learning_rate, int iteration, bool renormalize)
 {
     for (int i = 0; i < 3; ++i)
         adam_step(primal[i], grad[i], mean[i], variance[i], learning_rate, iteration);
