@@ -33,8 +33,7 @@ struct NetworkParameters<int Inputs, int Outputs>
         weights_grad.set({neuron, input}, grad);
     }
 
-    // ... Fields and accessors here ...
-
+    // Evaluate all neurons in the layer
     [Differentiable]
     float[Outputs] forward(float[Inputs] x)
     {
@@ -42,11 +41,11 @@ struct NetworkParameters<int Inputs, int Outputs>
         [ForceUnroll]
         for (int row = 0; row < Outputs; ++row)
         {
+            // Sum up bias plus weighted inputs for 1 neuron
             var sum = get_bias(row);
             [ForceUnroll]
             for (int col = 0; col < Inputs; ++col)
                 sum += get_weight(row, col) * x[col];
-
             y[row] = sum;
         }
 

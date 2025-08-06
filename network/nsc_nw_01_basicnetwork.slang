@@ -33,8 +33,7 @@ struct NetworkParameters<int Inputs, int Outputs>
         weights_grad.set({neuron, input}, grad);
     }
 
-    // ... Fields and accessors here ...
-
+    // Evaluate all neurons in the layer
     [Differentiable]
     float[Outputs] forward(float[Inputs] x)
     {
@@ -42,29 +41,38 @@ struct NetworkParameters<int Inputs, int Outputs>
         [ForceUnroll]
         for (int row = 0; row < Outputs; ++row)
         {
+            // Sum up bias plus weighted inputs for 1 neuron
             var sum = get_bias(row);
             [ForceUnroll]
             for (int col = 0; col < Inputs; ++col)
                 sum += get_weight(row, col) * x[col];
-
             y[row] = sum;
         }
 
         return y;
     }
+
 }
 
 struct Network {
     NetworkParameters<2, 3>  layer;
 
+    // Evaluate the layer and output activations
     [Differentiable]
     float3 eval(no_diff float2 uv)
     {
+        // Convert uv to array of 2 inputs
         float inputs[2] = {uv.x, uv.y};
+
+        // Feed inputs to layer, get outputs back
         float output0[3] = layer.forward(inputs);
+
+        // Apply activation function to each output
         [ForceUnroll]
         for (int i = 0; i < 3; ++i)
-            output0[i] = sigmoid(output0[i]);
+            output0[i] = activation(output0[i]);
+
+        // Return the output (to be used an RGB colour)
         return float3(output0[0], output0[1], output0[2]);
     }
 }
@@ -73,13 +81,6 @@ struct Network {
 float activation(float x)
 {
     return max(x, 0.0f);
-}
-
-[Differentiable]
-float sigmoid(float x)
-{
-    float expX = exp(x);
-    return expX / (expX + 1.0f);
 }
 
 // Render full res BRDF from given inputs.
