@@ -85,13 +85,6 @@ float activation(float x)
     return max(x, 0.0f);
 }
 
-[Differentiable]
-float sigmoid(float x)
-{
-    float expX = exp(x);
-    return expX / (expX + 1.0f);
-}
-
 // Render full res BRDF from given inputs.
 [Differentiable]
 float3 render(int2 pixel, int2 resolution, Network network)
