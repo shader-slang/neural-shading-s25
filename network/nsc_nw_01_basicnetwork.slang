@@ -7,6 +7,10 @@ struct NetworkParameters<int Inputs, int Outputs>
     RWTensor<float, 1> biases;
     RWTensor<float, 2> weights;
 
+    // Unlike the mipmapping example, where the parameters for each texel are independent and
+    // each texel only affect the material for one sample, the network weights are shared for
+    // the entire neural texture. In that case, we need to sum the weight gradients from all
+    // the training samples in the batch. We can do this using the atomic tensor
     AtomicTensor<float, 1> biases_grad;
     AtomicTensor<float, 2> weights_grad;
 
@@ -24,12 +28,14 @@ struct NetworkParameters<int Inputs, int Outputs>
     [BackwardDerivativeOf(get_bias)]
     void get_bias_bwd(int neuron, float grad)
     {
+        // .set on an atomic tensor atomically adds the result
         biases_grad.set({neuron}, grad);
     }
 
     [BackwardDerivativeOf(get_weight)]
     void get_weight_bwd(int neuron, int input, float grad)
     {
+        // .set on an atomic tensor atomically adds the result
         weights_grad.set({neuron, input}, grad);
     }
 
@@ -143,7 +149,7 @@ void optimizer_step(inout float primal, inout float grad, inout float mean, inou
     // Take an adam step
     primal -= step;
 
-    // Because we accumulate gradients, we need to clear them to zero before the next iteration
+    // Because we now accumulate gradients, we need to clear the gradient to zero before the next iteration
     grad = 0.0f;
 }
 
