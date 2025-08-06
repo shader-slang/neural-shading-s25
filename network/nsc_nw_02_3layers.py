@@ -36,7 +36,7 @@ class NetworkParameters(spy.InstanceList):
 
     # Calls the Slang 'optimize' function for biases and weights
     def optimize(self, learning_rate: float, optimize_counter: int):
-        module.optimize1(
+        module.optimizer_step(
             self.biases,
             self.biases_grad,
             self.m_biases,
@@ -44,7 +44,7 @@ class NetworkParameters(spy.InstanceList):
             learning_rate,
             optimize_counter,
         )
-        module.optimize1(
+        module.optimizer_step(
             self.weights,
             self.weights_grad,
             self.m_weights,
