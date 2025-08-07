@@ -159,9 +159,14 @@ cd hardware-acceleration/build/Release  # or build/ on Linux, this is not suppor
 
 ## Platform Support
 
+General Platform Support:
 - **Windows**: Vulkan
 - **Linux**: Vulkan
-- **macOS**: Metal
+- **macOS**: Metal (except hardware acceleration examples)
+
+Hardware Acceleration Examples:
+- **mlp-training**: Windows and Linux only
+- **mlp-training-coopvec**: Windows and Linux with Nvidia GPU only
 
 ## Troubleshooting
 
