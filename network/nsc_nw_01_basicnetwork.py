@@ -68,6 +68,9 @@ network = Network()
 
 optimize_counter = 0
 
+# Slang will compile the shaders the first time we call into them (i.e. in the first iteration)
+print("Compiling shaders... this can take a while")
+
 while app.process_events():
 
     # Blit tensor to screen.
