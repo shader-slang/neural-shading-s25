@@ -43,7 +43,7 @@ if not exist %BUILD_DIR% (
 
 REM Configure the project
 echo Configuring project...
-cmake -B %BUILD_DIR% -G %CMAKE_GENERATOR% -A x64
+cmake -B %BUILD_DIR% -G %CMAKE_GENERATOR% -A x64 -DSLANG_RHI_FETCH_SLANG_VERSION=2025.14.1
 
 if %ERRORLEVEL% neq 0 (
     echo CMake configuration failed!
