@@ -4,7 +4,7 @@ from app import App
 import slangpy as spy
 
 # Create the app and load the slang module.
-app = App(width=2048, height=2048, title="Mipmap Example")
+app = App(width=1024, height=1024, title="Mipmap Example")
 module = spy.Module.load_from_file(app.device, "nsc_01_basicprogram.slang")
 
 # Load some materials.
