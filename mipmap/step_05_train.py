@@ -215,9 +215,9 @@ while app.process_events():
 
     # read loss output to numpy tensor and sum abs values
     orig_loss_np = orig_loss_output.to_numpy()
-    orig_loss_value = np.sum(np.abs(orig_loss_np))
+    orig_loss_value = np.mean(orig_loss_np)
     loss_np = loss_output.to_numpy()
-    loss_value = np.sum(np.abs(loss_np))
+    loss_value = np.mean(loss_np)
     print(f"Loss: {loss_value:.6f}, Original Loss: {orig_loss_value:.6f}")
 
     # Present the window.
