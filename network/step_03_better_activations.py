@@ -6,7 +6,7 @@ import numpy as np
 
 # Create the app and load the slang module.
 app = App(width=512 * 3 + 10 * 2, height=512, title="Network Example")
-module = spy.Module.load_from_file(app.device, "nsc_nw_03_better_activations.slang")
+module = spy.Module.load_from_file(app.device, "step_03_better_activations.slang")
 
 # Load some materials.
 image = spy.Tensor.load_from_image(app.device, "slangstars.png", linearize=True)

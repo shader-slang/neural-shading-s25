@@ -5,7 +5,7 @@ import slangpy as spy
 
 # Create the app and load the slang module.
 app = App(width=1024, height=1024, title="Mipmap Example")
-module = spy.Module.load_from_file(app.device, "nsc_02_mipmap.slang")
+module = spy.Module.load_from_file(app.device, "step_02_mipmap.slang")
 
 # Load some materials.
 albedo_map = spy.Tensor.load_from_image(
@@ -36,24 +36,23 @@ def downsample(source: spy.Tensor, steps: int) -> spy.Tensor:
 
 while app.process_events():
 
-    # Quarter res rendered output BRDF from quarter res inputs.
-    lr_output = spy.Tensor.empty(app.device, (512,512), 'float3')
+    # Allocate a tensor for output
+    output = spy.Tensor.empty_like(albedo_map)
 
-    # Render from downsampled inputs.
+    # Full res rendered output BRDF from full res inputs.
     module.render(
         pixel=spy.call_id(),
-        material={
-            "albedo": downsample(albedo_map, 2),
-            "normal": downsample(normal_map, 2),
-            "roughness": downsample(roughness_map, 2),
-        },
+        material={"albedo": albedo_map, "normal": normal_map, "roughness": roughness_map},
         light_dir=spy.math.normalize(spy.float3(0.2, 0.2, 1.0)),
         view_dir=spy.float3(0, 0, 1),
-        _result=lr_output,
+        _result=output,
     )
 
+    # Downsample the output tensor.
+    output = downsample(output, 2)
+
     # Blit tensor to screen.
-    app.blit(lr_output, size=spy.int2(1024, 1024))
+    app.blit(output, size=spy.int2(1024, 1024))
 
     # Present the window.
     app.present()

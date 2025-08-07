@@ -8,7 +8,7 @@ import slangpy as spy
 
 # Create the app and load the slang module.
 app = App(width=3092, height=1024, title="Mipmap Example")
-module = spy.Module.load_from_file(app.device, "nsc_05_train.slang")
+module = spy.Module.load_from_file(app.device, "step_05_train.slang")
 
 # Load some materials.
 albedo_map = spy.Tensor.load_from_image(

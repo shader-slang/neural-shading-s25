@@ -6,7 +6,7 @@ import numpy as np
 
 # Create the app and load the slang module.
 app = App(width=512 * 3 + 10 * 2, height=512, title="Network Example")
-module = spy.Module.load_from_file(app.device, "nsc_nw_02_3layers.slang")
+module = spy.Module.load_from_file(app.device, "step_05_latent_texture.slang")
 
 # Load some materials.
 image = spy.Tensor.load_from_image(app.device, "slangstars.png", linearize=True)
@@ -54,15 +54,47 @@ class NetworkParameters(spy.InstanceList):
         )
 
 
+class LatentTexture(spy.InstanceList):
+    def __init__(self, width: int, height: int, num_latents: int):
+        super().__init__(module[f"LatentTexture<{num_latents}>"])
+        self.width = width
+        self.height = height
+        self.num_latents = num_latents
+        
+        # Initialize to random latent texture
+        initial_latents = np.random.uniform(0.0, 1.0, (height, width, num_latents)).astype("float32")
+        self.texture = spy.Tensor.from_numpy(app.device, initial_latents)
+
+        # Gradients for the latent texture
+        self.texture_grads = spy.Tensor.zeros_like(self.texture)
+
+        # Temp data for Adam optimizer.
+        self.m_texture = spy.Tensor.zeros_like(self.texture)
+        self.v_texture = spy.Tensor.zeros_like(self.texture)
+
+    # Calls the Slang 'optimize' function for biases and weights
+    def optimize(self, learning_rate: float, optimize_counter: int):
+        module.optimizer_step(
+            self.texture,
+            self.texture_grads,
+            self.m_texture,
+            self.v_texture,
+            learning_rate,
+            optimize_counter,
+        )
+
+
 class Network(spy.InstanceList):
     def __init__(self):
         super().__init__(module["Network"])
-        self.layer0 = NetworkParameters(2, 32)
+        self.latent_texture = LatentTexture(32, 32, 4)
+        self.layer0 = NetworkParameters(4, 32)
         self.layer1 = NetworkParameters(32, 32)
         self.layer2 = NetworkParameters(32, 3)
 
     # Calls the Slang 'optimize' function for the layer.
     def optimize(self, learning_rate: float, optimize_counter: int):
+        self.latent_texture.optimize(learning_rate, optimize_counter)
         self.layer0.optimize(learning_rate, optimize_counter)
         self.layer1.optimize(learning_rate, optimize_counter)
         self.layer2.optimize(learning_rate, optimize_counter)
