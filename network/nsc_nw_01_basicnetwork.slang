@@ -44,7 +44,7 @@ struct NetworkParameters<int Inputs, int Outputs>
     float[Outputs] forward(float[Inputs] x)
     {
         float[Outputs] y;
-        [ForceUnroll]
+        [MaxIters(Outputs)]
         for (int row = 0; row < Outputs; ++row)
         {
             // Sum up bias plus weighted inputs for 1 neuron
