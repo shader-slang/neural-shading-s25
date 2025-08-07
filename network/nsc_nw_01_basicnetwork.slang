@@ -4,8 +4,8 @@ import slangpy;
 
 struct NetworkParameters<int Inputs, int Outputs>
 {
-    RWTensor<float, 1> biases;
-    RWTensor<float, 2> weights;
+    Tensor<float, 1> biases;
+    Tensor<float, 2> weights;
 
     // Unlike the mipmapping example, where the parameters for each texel are independent and
     // each texel only affect the material for one sample, the network weights are shared for
