@@ -56,7 +56,7 @@ float3 render(int2 pixel, no_diff MaterialParameters material, no_diff float3 li
     float light_intensity = 1.5;
 
     // Sample very shiny BRDF (it rained today!)
-    float3 brdf_sample = sample_brdf(
+    float3 brdf_eval = eval_brdf(
                material.get_albedo(pixel),  // albedo color
                normalize(light_dir),        // light direction
                normalize(view_dir),         // view direction
@@ -66,7 +66,7 @@ float3 render(int2 pixel, no_diff MaterialParameters material, no_diff float3 li
                1.0                          // specular
                );
 
-    return brdf_sample * light_intensity;
+    return brdf_eval * light_intensity;
 }
 
 // Render the difference between the rendered pixel a reference pixel.

@@ -109,9 +109,9 @@ float3 DisneyBRDF(float3 baseColor, float3 L, float3 V, float3 N, float roughnes
 }
 
 [Differentiable]
-public float3 sample_brdf( float3 albedo, float3 light_dir, float3 view_dir, float3 normal, float roughness, float metallic, float specular )
+public float3 eval_brdf( float3 albedo, float3 light_dir, float3 view_dir, float3 normal, float roughness, float metallic, float specular )
 {
     float3 brdf = DisneyBRDF(albedo, light_dir, view_dir, normal, roughness, metallic, specular);
-    brdf *= max(0, dot(normal, light_dir)); // REALLY?
+    brdf *= max(0, dot(normal, light_dir));
     return brdf;
 }
