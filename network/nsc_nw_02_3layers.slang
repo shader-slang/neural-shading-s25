@@ -99,10 +99,17 @@ float3 render(int2 pixel, int2 resolution, Network network)
 }
 
 [Differentiable]
+float3 gamma_correct(float3 color)
+{
+    return pow(color, 1.0f/2.2f);
+}
+
+[Differentiable]
 float3 loss(int2 pixel, int2 resolution, no_diff float3 reference, Network network)
 {
     float3 color = render(pixel, resolution, network);
-    float3 error = color - reference;
+    // Colors are in linear color space. Gamma correct before computing loss
+    float3 error = gamma_correct(color) - gamma_correct(reference);
     return error * error; // Squared error
 }
 
