@@ -9,7 +9,7 @@ app = App(width=512 * 3 + 10 * 2, height=512, title="Network Example")
 module = spy.Module.load_from_file(app.device, "nsc_nw_01_basicnetwork.slang")
 
 # Load some materials.
-image = spy.Tensor.load_from_image(app.device, "slangstars.png", linearize=False)
+image = spy.Tensor.load_from_image(app.device, "slangstars.png", linearize=True)
 
 
 class NetworkParameters(spy.InstanceList):
