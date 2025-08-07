@@ -9,31 +9,34 @@ This course covers the fundamentals of neural shading using Slang. The materials
 ## Directory Structure
 
 ```
-├── autodiff/                     # Automatic differentiation examples
-│   ├── square.slang              # Basic square function
-│   ├── square-struct.slang       # Structured automatic differentiation
-│   └── square-debug.slang        # Debugging automatic differentiation
+├── autodiff/                         # Automatic differentiation examples
+│   ├── square.slang                  # Basic square function
+│   ├── square-struct.slang           # Structured automatic differentiation
+│   └── square-debug.slang            # Debugging automatic differentiation
 │
-├── hardware-acceleration/        # High-performance GPU implementations
-│   ├── mlp-training/             # Basic MLP training implementation
-│   ├── mlp-training-coopvec/     # Cooperative vector MLP training (only supported on Nvidia hardware on Windows/Linux)
-│   ├── example-base/             # Shared base library
-│   └── external/                 # External dependencies (slang-rhi, etc.)
+├── hardware-acceleration/            # High-performance GPU implementations
+│   ├── mlp-training/                 # Basic MLP training implementation
+│   ├── mlp-training-coopvec/         # Cooperative vector MLP training (only supported on Nvidia hardware on Windows/Linux)
+│   ├── example-base/                 # Shared base library
+│   └── external/                     # External dependencies (slang-rhi, etc.)
 │
-├── mipmap/                       # Mipmap and texture filtering examples
-│   ├── app.py                    # Main application framework
-│   ├── app.slang                 # Shader framework
-│   ├── nsc_01_basicprogram.py    # Basic shader program
-│   ├── nsc_02_mipmap.py          # Mipmap visualisation
-│   ├── nsc_03_supersample.py     # Supersampling visualisation
-│   ├── nsc_04_loss.py            # Loss function visualisation
-│   └── nsc_05_train.py           # Training the mipmap using the loss function
+├── mipmap/                           # Mipmap and texture filtering examples
+│   ├── app.py                        # Main application framework
+│   ├── app.slang                     # Main application shader
+│   ├── step_01_basicprogram.py       # Basic shader program
+│   ├── step_02_mipmap.py             # Mipmap visualisation
+│   ├── step_03_supersample.py        # Supersampling visualisation
+│   ├── step_04_loss.py               # Loss function visualisation
+│   └── step_05_train.py              # Training the mipmap using the loss function
 │
-└── network/                      # Neural network examples
-    ├── app.py                    # Network application framework
-    ├── app.slang                 # Network shader framework
-    ├── nsc_nw_01_basicnetwork.py # Basic neural network
-    └── nsc_nw_02_3layers.py      # Multi-layer network example
+└── network/                          # Neural network examples
+    ├── app.py                        # Main application framework
+    ├── app.slang                     # Main application shader
+    ├── step_01_basicnetwork.py       # Basic single-layer neural network
+    ├── step_02_multiple_layers.py    # Multi-layer network example
+    ├── step_03_better_activations.py # Network with improved activations
+    ├── step_04_frequency_encoding.py # Frequency encoding example
+    └── step_05_latent_texture.py     # Latent texture training example
 ```
 
 ## Prerequisites
