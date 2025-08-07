@@ -65,7 +65,7 @@ function(download_github_release REPO_URL TAG_NAME TARGET_DIR)
 endfunction()
 
 # Download external dependencies
-set(SLANG_VERSION "v2025.14")  # Adjust version as needed
+set(SLANG_VERSION "v2025.14.1")  # Adjust version as needed
 
 set(SLANG_DIR "${CMAKE_BINARY_DIR}/external/slang")
 set(SLANG_RHI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/slang-rhi")
