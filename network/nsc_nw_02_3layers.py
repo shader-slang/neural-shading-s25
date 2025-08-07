@@ -86,7 +86,7 @@ while app.process_events():
     # Render current neural texture
     lr_output = spy.Tensor.empty_like(image)
     module.render(pixel=spy.call_id(), resolution=res, network=network, _result=lr_output)
-    app.blit(lr_output, size=spy.int2(512, 512), offset=spy.int2(offset, 0), tonemap=False)
+    app.blit(lr_output, size=spy.int2(512, 512), offset=spy.int2(offset, 0), tonemap=False, bilinear=True)
     offset += 512 + 10
 
     # Show loss between neural texture and reference texture.

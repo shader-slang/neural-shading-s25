@@ -89,7 +89,7 @@ float activation(float x)
     return max(x, 0.0f);
 }
 
-// Render full res BRDF from given inputs.
+// "Render" the neural texture
 [Differentiable]
 float3 render(int2 pixel, int2 resolution, Network network)
 {
