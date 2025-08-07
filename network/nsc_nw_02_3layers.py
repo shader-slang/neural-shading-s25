@@ -110,7 +110,7 @@ while app.process_events():
 
         network.optimize(learning_rate, optimize_counter)
 
-    print("Loss:", np.sum(np.abs(loss_output.to_numpy())))
+    print(f"Loss: {np.mean(loss_output.to_numpy()):.5f}")
 
     # Present the window.
     app.present()
