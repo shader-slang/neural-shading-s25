@@ -165,7 +165,7 @@ while app.process_events():
 
     # Loss between downsampled output and quarter res rendered output.
     # NOTE: iterations can be turned up to 1000 if you want to see results quicker!
-    for i in range(1):
+    for i in range(50):
         module.calculate_grads(
             seed=spy.wang_hash(seed=optimize_counter, warmup=2),
             pixel=spy.grid(shape=lr_albedo_map.shape),
