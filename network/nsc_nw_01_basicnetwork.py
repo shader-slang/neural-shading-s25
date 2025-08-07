@@ -73,33 +73,28 @@ print("Compiling shaders... this can take a while")
 
 while app.process_events():
 
-    # Blit tensor to screen.
     offset = 0
+    # Blit reference texture
     app.blit(image, size=spy.int2(512), offset=spy.int2(offset, 0), tonemap=False, bilinear=True)
     offset += 512 + 10
     res = spy.int2(256, 256)
 
+    # Render current neural texture
     lr_output = spy.Tensor.empty_like(image)
     module.render(pixel=spy.call_id(), resolution=res, network=network, _result=lr_output)
-
-    # Blit tensor to screen.
     app.blit(lr_output, size=spy.int2(512, 512), offset=spy.int2(offset, 0), tonemap=False)
     offset += 512 + 10
 
-    # Loss between downsampled output and quarter res rendered output.
+    # Show loss between neural texture and reference texture.
     loss_output = spy.Tensor.empty_like(image)
     module.loss(
         pixel=spy.call_id(), resolution=res, network=network, reference=image, _result=loss_output
     )
-
-    # Blit tensor to screen.
     app.blit(loss_output, size=spy.int2(512, 512), offset=spy.int2(offset, 0), tonemap=False)
-    offset += 512 + 10
 
     learning_rate = 0.001
 
     for i in range(50):
-        # Loss between downsampled output and quarter res rendered output.
         module.calculate_grads(
             seed=spy.wang_hash(seed=optimize_counter, warmup=2),
             pixel=spy.call_id(),
