@@ -222,7 +222,17 @@ void optimizer_step(inout float primal, inout float grad, inout float mean, inou
     grad = 0.0f;
 }
 
-void calculate_grads(uint seed, int2 pixel, int2 resolution, float3 reference, Network network)
+void calculate_grads(uint seed, int2 batch_index, int2 batch_size, Tensor<float3, 2> reference, Network network)
 {
-    bwd_diff(loss)(pixel, resolution, reference, network, 1.0f);
+    // Pick a random pixel for computing the loss
+    // First, sample a random UV within our cell of the training batch grid
+    LCG lcg = LCG(seed);
+    float2 uv = (batch_index + float2(lcg.next_float(), lcg.next_float())) / float2(batch_size);
+    // Then turn that into a pixel on the texture
+    int2 resolution = {reference.shape[1], reference.shape[0]};
+    int2 pixel = int2(uv * float2(resolution));
+    // Evaluate the reference texture color there
+    float3 reference_color = reference.getv(pixel);
+    // Backpropagate through the loss
+    bwd_diff(loss)(pixel, resolution, reference_color, network, 1.0f);
 }

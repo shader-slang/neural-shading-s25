@@ -75,7 +75,7 @@ network = Network()
 optimize_counter = 0
 
 # Slang will compile the shaders the first time we call into them (i.e. in the first iteration)
-print("Compiling shaders... this can take a while")
+print("Compiling shaders... this may take a while")
 
 while app.process_events():
 
@@ -84,6 +84,9 @@ while app.process_events():
     app.blit(image, size=spy.int2(512), offset=spy.int2(offset, 0), tonemap=False, bilinear=True)
     offset += 512 + 10
     res = spy.int2(256, 256)
+    # Train a batch of samples at a time. Smaller batches train faster, but are more "jittery"
+    # A better strategy is to use small batches at the start, and slowly increase them over time
+    batch_size = (64, 64)
 
     # Render current neural texture
     lr_output = spy.Tensor.empty_like(image)
@@ -100,11 +103,12 @@ while app.process_events():
 
     learning_rate = 0.001
 
-    for i in range(50):
+    # NOTE: For faster feedback we use a low number of iterations (20) per frame. This will be more efficient if you turn it up.
+    for i in range(20):
         module.calculate_grads(
             seed=spy.wang_hash(seed=optimize_counter, warmup=2),
-            pixel=spy.call_id(),
-            resolution=res,
+            batch_index=spy.grid(batch_size),
+            batch_size=spy.int2(batch_size),
             reference=image,
             network=network,
         )
