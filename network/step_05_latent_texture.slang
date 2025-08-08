@@ -44,6 +44,10 @@ struct NetworkParameters<int Inputs, int Outputs>
     float[Outputs] forward(float[Inputs] x)
     {
         float[Outputs] y;
+        // For optimal runtime performance, using [ForceUnroll] here can be better. However, the downstream
+        // compiler on some platforms (in particular, the DXC compiler on D3D12) may not cope well with
+        // unrolled loops and compilation times grow exponentially. Using MaxIters on the outer loop
+        // here helps avoid this.
         [MaxIters(Outputs)]
         for (int row = 0; row < Outputs; ++row)
         {
