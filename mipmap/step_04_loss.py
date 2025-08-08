@@ -2,20 +2,23 @@
 
 from app import App
 import slangpy as spy
+from pathlib import Path
 
 # Create the app and load the slang module.
 app = App(width=3092, height=1024, title="Mipmap Example")
 module = spy.Module.load_from_file(app.device, "step_04_loss.slang")
 
+data_path = Path(__file__).parent
+
 # Load some materials.
 albedo_map = spy.Tensor.load_from_image(
-    app.device, "PavingStones070_2K.diffuse.jpg", linearize=True
+    app.device, data_path.joinpath("PavingStones070_2K.diffuse.jpg"), linearize=True
 )
 normal_map = spy.Tensor.load_from_image(
-    app.device, "PavingStones070_2K.normal.jpg", scale=2, offset=-1
+    app.device, data_path.joinpath("PavingStones070_2K.normal.jpg"), scale=2, offset=-1
 )
 roughness_map = spy.Tensor.load_from_image(
-    app.device, "PavingStones070_2K.roughness.jpg", grayscale=True
+    app.device, data_path.joinpath("PavingStones070_2K.roughness.jpg"), grayscale=True
 )
 
 

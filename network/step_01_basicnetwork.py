@@ -3,13 +3,15 @@
 from app import App
 import slangpy as spy
 import numpy as np
+from pathlib import Path
 
 # Create the app and load the slang module.
 app = App(width=512 * 3 + 10 * 2, height=512, title="Network Example")
 module = spy.Module.load_from_file(app.device, "step_01_basicnetwork.slang")
 
 # Load some materials.
-image = spy.Tensor.load_from_image(app.device, "slangstars.png", linearize=True)
+data_path = Path(__file__).parent
+image = spy.Tensor.load_from_image(app.device, data_path.joinpath("slangstars.png"), linearize=True)
 
 
 class NetworkParameters(spy.InstanceList):
