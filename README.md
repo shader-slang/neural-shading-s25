@@ -165,8 +165,8 @@ General Platform Support:
 - **macOS**: Metal (except hardware acceleration examples)
 
 Hardware Acceleration Examples:
-- **mlp-training**: Windows and Linux only
-- **mlp-training-coopvec**: Windows and Linux with Nvidia GPU only
+- **mlp-training**: Windows, Linux, and macOS (uses Vulkan on Windows/Linux, Metal on macOS)
+- **mlp-training-coopvec**: Windows and Linux with NVIDIA GPU only (cooperative vector not supported on macOS)
 
 ## Troubleshooting
 

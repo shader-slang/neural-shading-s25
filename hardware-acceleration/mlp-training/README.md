@@ -6,5 +6,5 @@ using automatic differentiation. Also see the "MLP-Training-CoopVec" example
 to see how to use the cooperative vector intrinsics to speedup training.
 
 Platform Compatibility:
-- This example is currently supported only on Windows and Linux
-- macOS is not supported at this time due to use of fp16.
+- This example is supported on Windows, Linux, and macOS
+- Uses Vulkan on Windows/Linux and Metal on macOS

@@ -122,8 +122,8 @@ If external dependencies fail to download:
 ### Platform Compatibility and Runtime Issues
 
 Platform Support:
-- Windows and Linux: Both examples are supported, coopvec requires an Nvidia GPU.
-- macOS: Neither example is currently supported
+- Windows and Linux: Both examples are supported, coopvec requires an NVIDIA GPU
+- macOS: Only mlp-training is supported (uses Metal), coopvec is not supported
 
 Requirements:
 - Ensure shader files (.slang) are in the same directory as the executable
