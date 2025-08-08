@@ -21,7 +21,7 @@ void learnGradient(
     if (tid >= count)
         return;
 
-    var input = (half2)inputs[tid];
+    var input = inputs[tid];
     bwd_diff(loss)(network, input.x, input.y, 1.0h);
     let thisLoss = (float)loss(network, input.x, input.y);
     let maxLoss = WaveActiveMax(thisLoss);

@@ -29,16 +29,16 @@ public struct MyNetwork
     }
 
     [Differentiable]
-    public half4 eval(no_diff NFloat x, no_diff NFloat y)
+    public float4 eval(no_diff NFloat x, no_diff NFloat y)
     {
         let mlv = _eval(x, y);
         let arr = mlv.toArray();
-        return half4(arr[0], arr[1], arr[2], arr[3]);
+        return float4(arr[0], arr[1], arr[2], arr[3]);
     }
 }
 
 [Differentiable]
-public half loss(MyNetwork* network, no_diff half x, no_diff half y)
+public NFloat loss(MyNetwork* network, no_diff NFloat x, no_diff NFloat y)
 {
     let networkResult = network.eval(x, y);
     let gt = no_diff groundtruth(x, y);
@@ -47,7 +47,7 @@ public half loss(MyNetwork* network, no_diff half x, no_diff half y)
     return dot(diff, diff);
 }
 
-public half4 groundtruth(half x, half y)
+public float4 groundtruth(NFloat x, NFloat y)
 {
     return {
         (x + y) / (1 + y * y),
