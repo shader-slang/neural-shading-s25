@@ -42,7 +42,7 @@ This course covers the fundamentals of neural shading using Slang. The materials
 ## Prerequisites
 
 ### For Python Examples (mipmap/, network/)
-- Python 3.7 or later
+- Python 3.7 or later (on macOS, must be installed via `brew install python` for network examples)
 - `slangpy` - Python bindings for Slang
 - `numpy` - Numerical computing
 - `pillow` - Image processing
@@ -57,6 +57,11 @@ This course covers the fundamentals of neural shading using Slang. The materials
 ## Installation
 
 ### Python Environment Setup
+
+**macOS Users**: For the network examples to work correctly on macOS, Python must be installed via Homebrew:
+```bash
+brew install python
+```
 
 1. **Install slangpy**:
    ```bash
@@ -175,7 +180,8 @@ Hardware Acceleration Examples:
 1. **slangpy not found**: Ensure you have installed slangpy via pip
 2. **Build failures**: Check that all submodules are initialized
 3. **Graphics driver issues**: Update to latest graphics drivers
-4. **mlp-training-coopvec issues**: Cooperative vector is only supported on Nvidia hardware, on Windows and Linux.
+4. **mlp-training-coopvec issues**: Cooperative vector is only supported on Nvidia hardware, on Windows and Linux
+5. **Network examples not working on macOS**: Install Python via Homebrew (`brew install python`) instead of using the system Python
 
 ### Getting Help
 
