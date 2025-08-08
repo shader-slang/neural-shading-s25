@@ -57,8 +57,7 @@ void outerProductAccumulate<int M, int N>(MLVec<M> v0, MLVec<N> v1, NFloat* matr
         for (int j = 0; j < N; j++)
         {
             let elem = v0.data[i] * v1.data[j];
-            half original;
-            InterlockedAddF16Emulated(matrix + (i*N + j), elem, original);
+            __atomic_add(matrix[i*N + j], elem);
         }
     }
 }

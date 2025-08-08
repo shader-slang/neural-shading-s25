@@ -1,1 +1,1 @@
-public typealias NFloat = half;
+public typealias NFloat = float;

@@ -48,7 +48,7 @@ public struct FeedForwardLayer<int InputSize, int OutputSize>
         for (int i = 0; i < OutputSize; i++)
         {
             NFloat originalValue;
-            InterlockedAddF16Emulated(biasesGrad + i, resultGrad.data[i], originalValue);
+            __atomic_add(biasesGrad[i], resultGrad.data[i]);
         }
 
         // Back-prop gradients to the input vector.

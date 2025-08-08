@@ -19,7 +19,7 @@ using Slang::ComPtr;
 
 static const ExampleResources resourceBase("mlp-training");
 
-typedef uint16_t NFloat;
+typedef float NFloat;
 
 static const int kLayerSizes[] = {4, 16, 4};
 static const int kLayerCount = sizeof(kLayerSizes) / sizeof(int) - 1;
@@ -139,7 +139,7 @@ struct ExampleProgram : public TestBase
         std::vector<NetworkParameterAllocation> layerAllocations;
         allocateNetworkParameterStorage(layerAllocations, paramBufferSize, gradientOffset);
 
-        std::vector<uint16_t> initParams;
+        std::vector<float> initParams;
         srand(1072);
         for (int i = 0; i < paramBufferSize / sizeof(NFloat); i++)
         {
@@ -147,7 +147,7 @@ struct ExampleProgram : public TestBase
             {
                 float v = rand() / (float)RAND_MAX;
                 v = v * 2.0f - 1.0f; // Normalize to [-1, 1]
-                initParams.push_back(floatToHalf(v));
+                initParams.push_back(v);
             }
             else
             {
@@ -313,11 +313,6 @@ struct ExampleProgram : public TestBase
         ComPtr<slang::IComponentType> linkedProgram;
         entryPoint->link(linkedProgram.writeRef());
 
-        if (isTestMode())
-        {
-            printEntrypointHashes(1, 1, linkedProgram);
-        }
-
         Kernel result;
 
         rhi::ComputePipelineDesc desc;
@@ -326,33 +321,6 @@ struct ExampleProgram : public TestBase
         result.program = program;
         result.pipeline = gDevice->createComputePipeline(desc);
         return result;
-    }
-
-    inline unsigned short floatToHalf(float val)
-    {
-        uint32_t x = 0;
-        memcpy(&x, &val, sizeof(float));
-
-        unsigned short bits = (x >> 16) & 0x8000;
-        unsigned short m = (x >> 12) & 0x07ff;
-        unsigned int e = (x >> 23) & 0xff;
-        if (e < 103)
-            return bits;
-        if (e > 142)
-        {
-            bits |= 0x7c00u;
-            bits |= e == 255 && (x & 0x007fffffu);
-            return bits;
-        }
-        if (e < 113)
-        {
-            m |= 0x0800u;
-            bits |= (m >> (114 - e)) + ((m >> (113 - e)) & 1);
-            return bits;
-        }
-        bits |= ((e - 112) << 10) | (m >> 1);
-        bits += m & 1;
-        return bits;
     }
 
     ComPtr<slang::ISession> createSlangSession(rhi::IDevice* device)
