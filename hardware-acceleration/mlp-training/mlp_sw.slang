@@ -7,9 +7,9 @@ __include mlvec_sw;
 public struct FeedForwardLayer<int InputSize, int OutputSize>
 {
     public NFloat* weights;
-    public NFloat* weightsGrad;
+    public Atomic<NFloat>* weightsGrad;
     public NFloat* biases;
-    public NFloat* biasesGrad;
+    public Atomic<NFloat>* biasesGrad;
 
     [BackwardDerivative(evalBwd)]
     public MLVec<OutputSize> eval(MLVec<InputSize> input)
@@ -48,7 +48,7 @@ public struct FeedForwardLayer<int InputSize, int OutputSize>
         for (int i = 0; i < OutputSize; i++)
         {
             NFloat originalValue;
-            InterlockedAddF16Emulated(biasesGrad + i, resultGrad.data[i], originalValue);
+            biasesGrad[i].add(resultGrad.data[i]);
         }
 
         // Back-prop gradients to the input vector.

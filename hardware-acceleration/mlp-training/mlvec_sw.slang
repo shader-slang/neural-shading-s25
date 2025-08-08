@@ -50,15 +50,14 @@ MLVec<OutputSize> matMulTransposed<int OutputSize, int InputSize>(MLVec<InputSiz
     return result;
 }
 
-void outerProductAccumulate<int M, int N>(MLVec<M> v0, MLVec<N> v1, NFloat* matrix)
+void outerProductAccumulate<int M, int N>(MLVec<M> v0, MLVec<N> v1, Atomic<NFloat>* matrix)
 {
     for (int i = 0; i < M; i++)
     {
         for (int j = 0; j < N; j++)
         {
             let elem = v0.data[i] * v1.data[j];
-            half original;
-            InterlockedAddF16Emulated(matrix + (i*N + j), elem, original);
+            matrix[i*N + j].add(elem);
         }
     }
 }
