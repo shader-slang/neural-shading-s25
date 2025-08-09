@@ -43,7 +43,7 @@ fi
 
 # Configure the project
 echo "Configuring project..."
-cmake -B "$BUILD_DIR" -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DSLANG_RHI_FETCH_SLANG_VERSION=2025.14.1
+cmake -B "$BUILD_DIR" -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DSLANG_RHI_FETCH_SLANG_VERSION=2025.14.3
 
 # Build the project
 echo "Building project..."
