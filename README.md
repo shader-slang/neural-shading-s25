@@ -206,7 +206,7 @@ The RTX neural shading SDK is a useful resource for developers interested in bri
 It provides examples for training neural networks and using the models to perform inferences on normal graphics rendering.
 https://github.com/NVIDIA-RTX/RTXNS
 
-### RTXNC
+### RTXNTC
 
 Related to the neural shaing samples is the RTX Neural Texture Compression (NTC) SDK which allows compressing all
 PBR textures for a single material together: https://github.com/NVIDIA-RTX/RTXNTC
