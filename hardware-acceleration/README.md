@@ -1,7 +1,7 @@
 # Neural Shading Hardware Acceleration
 
 This folder contains the source code used in the "Hardware Acceleration" section of the "Introduction to Neural Shading" course at
-SIGGRPAH 2025. This project includes two implementations of neural network (MLP) training using Slang and slang-rhi.
+SIGGRAPH 2025. This project includes two implementations of neural network (MLP) training using Slang and slang-rhi.
 
 `mlp-trainining/` contains the shader and host-side C++ code to train an MLP without using any special intrinsics.
 `mlp-training-coopvec/` is a modified version of `mlp-trainining` that uses cooperative vectors to speed up inferencing and training.
