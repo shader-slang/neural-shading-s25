@@ -1,6 +1,6 @@
 # Neural Shading Hardware Acceleration
 
-This folder contains the source code used in the "Hardware Acceleration" section of the "Introduction to Neural Shading" cource at
+This folder contains the source code used in the "Hardware Acceleration" section of the "Introduction to Neural Shading" course at
 SIGGRPAH 2025. This project includes two implementations of neural network (MLP) training using Slang and slang-rhi.
 
 `mlp-trainining/` contains the shader and host-side C++ code to train an MLP without using any special intrinsics.
@@ -67,10 +67,8 @@ If you prefer to set up manually:
 git submodule update --init --recursive
 
 # Build
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
 ```
 
 ## Executables
