@@ -191,6 +191,7 @@ Hardware Acceleration Examples:
 2. **Build failures**: Check that all submodules are initialized
 3. **Graphics driver issues**: Update to latest graphics drivers
 4. **mlp-training-coopvec issues**: Cooperative vector is only supported on Nvidia hardware, on Windows and Linux
+5. **Network samples compile time optimization**: The network samples (in the `network/` directory) use `MaxIters` instead of `ForceUnroll` in their loop constructs to improve compile time performance. Changing these to use `ForceUnroll` could cause the samples to hang during compilation.
 
 ### Getting Help
 
