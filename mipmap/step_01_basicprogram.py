@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
+# /// script
+# requires-python = ">=3.7"
+# dependencies = ["slangpy", "pillow"]
+# ///
+
 from app import App
 import slangpy as spy
 from pathlib import Path
