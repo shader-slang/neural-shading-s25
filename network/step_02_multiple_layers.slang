@@ -17,26 +17,24 @@ struct NetworkParameters<int Inputs, int Outputs>
     [Differentiable]
     float get_bias(int neuron)
     {
-        return biases.get({neuron});
+        return biases.load(neuron);
     }
     [Differentiable]
     float get_weight(int neuron, int input)
     {
-        return weights.get({neuron, input});
+        return weights.load(neuron, input);
     }
 
     [BackwardDerivativeOf(get_bias)]
     void get_bias_bwd(int neuron, float grad)
     {
-        // .set on an atomic tensor atomically adds the result
-        biases_grad.set({neuron}, grad);
+        biases_grad.add(neuron, grad);
     }
 
     [BackwardDerivativeOf(get_weight)]
     void get_weight_bwd(int neuron, int input, float grad)
     {
-        // .set on an atomic tensor atomically adds the result
-        weights_grad.set({neuron, input}, grad);
+        weights_grad.add(neuron, input, grad);
     }
 
     // Evaluate all neurons in the layer
@@ -63,15 +61,16 @@ struct NetworkParameters<int Inputs, int Outputs>
     }
 }
 
-struct Network {
-    NetworkParameters<2, 32>  layer0;
+struct Network
+{
+    NetworkParameters<2, 32> layer0;
     NetworkParameters<32, 32> layer1;
-    NetworkParameters<32, 3>  layer2;
+    NetworkParameters<32, 3> layer2;
 
     [Differentiable]
     float3 eval(no_diff float2 uv)
     {
-        float inputs[2] = {uv.x, uv.y};
+        float inputs[2] = { uv.x, uv.y };
         float output0[32] = layer0.forward(inputs);
         [ForceUnroll]
         for (int i = 0; i < 32; ++i)
@@ -105,7 +104,7 @@ float3 render(int2 pixel, int2 resolution, Network network)
 [Differentiable]
 float3 gamma_correct(float3 color)
 {
-    return pow(color, 1.0f/2.2f);
+    return pow(color, 1.0f / 2.2f);
 }
 
 [Differentiable]
@@ -121,7 +120,10 @@ struct LCG
 {
     uint state;
 
-    __init(uint seed) { state = seed; }
+    __init(uint seed)
+    {
+        state = seed;
+    }
 
     [mutating]
     uint next_uint()
@@ -151,7 +153,7 @@ void optimizer_step(inout float primal, inout float grad, inout float mean, inou
     mean = lerp(grad, mean, ADAM_BETA_1);
     variance = lerp(grad * grad, variance, ADAM_BETA_2);
 
-    // The running average is initialized with zeros, and underestimates 
+    // The running average is initialized with zeros, and underestimates
     // the true values at the beginning. Adam divides by a compensation factor
     float mHat = mean / (1.0f - pow(ADAM_BETA_1, iteration));
     float vHat = variance / (1.0f - pow(ADAM_BETA_2, iteration));
@@ -172,10 +174,10 @@ void calculate_grads(uint seed, int2 batch_index, int2 batch_size, Tensor<float3
     LCG lcg = LCG(seed);
     float2 uv = (batch_index + float2(lcg.next_float(), lcg.next_float())) / float2(batch_size);
     // Then turn that into a pixel on the texture
-    int2 resolution = {reference.shape[1], reference.shape[0]};
+    int2 resolution = { reference.shape[1], reference.shape[0] };
     int2 pixel = int2(uv * float2(resolution));
     // Evaluate the reference texture color there
-    float3 reference_color = reference.getv(pixel);
+    float3 reference_color = reference.load(pixel);
     // Backpropagate through the loss
     bwd_diff(loss)(pixel, resolution, reference_color, network, 1.0f);
 }

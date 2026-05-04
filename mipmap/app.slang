@@ -39,7 +39,7 @@ void blit(
 
     float3 col = bilinear ?
         input.sample(uv) :
-        input.getv(uint2(float2(shape[1], shape[0]) * uv));
+        input.load(uint2(float2(shape[1], shape[0]) * uv));
 
     col = abs(col);
 
