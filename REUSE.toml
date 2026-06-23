@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = "**"
+precedence = "closest"
+SPDX-FileCopyrightText = "2024-2026 The Khronos Group, Inc."
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "hardware-acceleration/example-base/core/slang-crypto.cpp"
+precedence = "closest"
+SPDX-FileCopyrightText = "2001 Alexander Peslyak"
+SPDX-License-Identifier = "LicenseRef-Solar-Designer-MD5 AND Unlicense"

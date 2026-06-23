@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2024-2026 The Khronos Group, Inc.
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 # Neural Shading SIGGRAPH 2025
 
 Materials for the Neural Shading Course at SIGGRAPH 2025. This repository contains practical examples and implementations of neural shading techniques using Slang.
