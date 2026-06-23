@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
+# /// script
+# requires-python = ">=3.7"
+# dependencies = ["slangpy", "numpy", "pillow"]
+# ///
+
 import math
 
 import numpy as np
