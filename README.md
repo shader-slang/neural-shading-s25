@@ -11,6 +11,10 @@ Materials for the Neural Shading Course at SIGGRAPH 2025. This repository contai
 
 This course covers the fundamentals of neural shading using Slang. The materials include both Python-based examples using `slangpy` and C++ implementations for high-performance neural network training on GPU.
 
+## Course Videos
+
+Recordings from the "An Introduction to Neural Shading" course are available on [YouTube](https://www.youtube.com/playlist?list=PLPTS9gmXL0u_BA3bG67IYQHgrMl48Xml3).
+
 ## Directory Structure
 
 ```
