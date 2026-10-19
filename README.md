@@ -66,8 +66,8 @@ Recordings from the "An Introduction to Neural Shading" course are available on 
 ## Prerequisites
 
 ### For Python Examples (mipmap/, network/)
-- Python 3.7 or later
-- `slangpy` - Python bindings for Slang
+- Python 3.9 or later
+- `slangpy` 0.43.1 - Python bindings for Slang
 - `numpy` - Numerical computing
 - `pillow` - Image processing
 - `slang` - latest Slang release from https://github.com/shader-slang/slang/releases for autodiff
@@ -82,15 +82,34 @@ Recordings from the "An Introduction to Neural Shading" course are available on 
 
 ### Python Environment Setup
 
-1. **Install slangpy**:
+1. **Create and activate a virtual environment** (optional, but recommended):
+
+   A virtual environment keeps this course's `slangpy` separate from any other
+   `slangpy` already installed on your system (for example, a `pip install --user`
+   copy), which can be a different version and fail to compile the shaders.
+
    ```bash
-   pip install slangpy
+   # On Windows (PowerShell)
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
+
+   # On Linux/macOS
+   python3 -m venv .venv
+   source .venv/bin/activate
    ```
 
-2. **Install additional dependencies**:
+2. **Install the Python dependencies**:
    ```bash
-   pip install numpy pillow
+   python -m pip install -r requirements.txt
    ```
+
+   Check that Python picks up the expected `slangpy`:
+   ```bash
+   python -c "import slangpy; print(slangpy.__version__, slangpy.__file__)"
+   ```
+   The version must match the one pinned in `requirements.txt`. `slangpy` bundles
+   its own Slang compiler, so this is the only version that matters; a `slangc`
+   from the Vulkan SDK or `PATH` is not used.
 
 ### C++ Environment Setup
 
