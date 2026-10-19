@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # /// script
-# requires-python = ">=3.7"
-# dependencies = ["slangpy", "pillow"]
+# requires-python = ">=3.9"
+# dependencies = ["slangpy==0.43.1", "pillow"]
 # ///
 
 from app import App
